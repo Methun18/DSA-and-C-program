@@ -1,0 +1,91 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+void deleteStart(struct Node** head) {
+    struct Node* temp = *head;
+
+    // If head is NULL it means Singly Linked List is empty
+    if (*head == NULL) {
+        printf("Impossible to delete from empty Singly Linked List\n");
+        return;
+    }
+
+    // Move head to next node
+    *head = (*head)->next;
+    printf("Deleted: %d\n", temp->data);
+    free(temp);
+}
+
+void insertStart(struct Node** head, int data) {
+    // Dynamically create memory for this newNode
+    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
+
+    // Assign data value
+    newNode->data = data;
+    // Change the next node of this newNode
+    // to current head of Linked List
+    newNode->next = *head;
+
+    // Re-assign head to this newNode
+    *head = newNode;
+    printf("Inserted %d\n", newNode->data);
+}
+
+void display(struct Node* node) {
+    printf("\nLinked List: ");
+    // As linked list will end when Node is Null
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+int listareequal(struct Node* head1, struct Node* head2) {
+    if(head1 == NULL && head2 == NULL){
+        return 1;
+    }
+    while (head1 != NULL && head2 != NULL) {
+        if (head1->data != head2->data)
+            return 0;
+        head1 = head1->next;
+        head2 = head2->next;
+    }
+    return 1;
+}
+
+int main() {
+    struct Node* head1 = NULL;
+
+    insertStart(&head1, 100);
+    insertStart(&head1, 80);
+    insertStart(&head1, 60);
+    insertStart(&head1, 20);
+   
+
+    display(head1);
+
+    struct Node* head2 = NULL;
+
+    insertStart(&head2, 100);
+    insertStart(&head2, 80);
+    insertStart(&head2, 60);
+    insertStart(&head2, 40);
+    insertStart(&head2, 20);
+
+    display(head2);
+
+    // Compare the two lists
+    if (listareequal(head1, head2)) {
+        printf("The lists are equal.\n");
+    } else {
+        printf("The lists are not equal.\n");
+    }
+
+    return 0;
+}
